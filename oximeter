@@ -2,11 +2,11 @@
 
 int cont = 0;
 
-void readPulsioximeter();
+void readPulsioximeter(); //lê um valor do oxímetro
 
 void setup() { 
 
-	eHealth.initPulsioximeter();
+	eHealth.initPulsioximeter(); //configura os pinos do shield para o oximetro
 	//Attach the inttruptions for using the pulsioximeter.
 	attachInterrupt(6, readPulsioximeter, RISING);
     
