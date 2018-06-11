@@ -1,0 +1,20 @@
+simpleserver
+
+1 - inicia a plataforma, determinas os devices e o nome do conjunto de recursos
+
+2 - GET request
+
+2.1 - atualiza o valor do recurso
+
+2.2 - inicia o objeto raiz (root object)/oc_rep_start_root_object() *oc_rep.h*
+
+2.3 - seta os recursos de acordo com a interface utilizada e com os tipos de variáveis a eles declaradas/oc_rep_set_* *oc_rep.h* e oc_process_baseline *oc_api.h*
+
+2.4 - finaliza objeto raiz (root object)/oc_rep_end_root_object() *oc_rep.h*
+
+2.5 - Envia a respota do GET (GET RESPONSE)/oc_send_response *oc_api.h*
+
+
+3 - Registro de Recursos
+
+3.1 - 
