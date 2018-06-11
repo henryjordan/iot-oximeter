@@ -1,0 +1,44 @@
+#include "eHealth.h" //inclui biblioteca do eHealth
+
+int cont = 0;
+
+void readPulsioximeter(); //lê um valor do oxímetro
+
+void setup() { 
+
+	eHealth.initPulsioximeter(); //configura os pinos do shield para o oximetro
+	//Attach the inttruptions for using the pulsioximeter.
+	attachInterrupt(6, readPulsioximeter, RISING);
+    
+} //inicia o oxímetro anexando as interrupções dos pinos do shield
+
+void loop() { 
+
+  printf("PRbpm : %d",eHealth.getBPM()); 
+
+  printf("    %%SPo2 : %d\n", eHealth.getOxygenSaturation());
+
+  printf("=============================");
+  
+  digitalWrite(2,HIGH);
+  
+  delay(500);
+  
+} // recebe os dados dos batimentos cardíacos e nível de oxigênio no sangue e imprime os resultados
+
+void readPulsioximeter(){  
+
+  cont ++;
+  if (cont == 50) { //Get only of one 50 measures to reduce the latency
+    eHealth.readPulsioximeter();  
+    cont = 0;
+  }
+} // realiza a leitura a cada 50 medições dos dados do oxímetro
+
+int main (){
+	setup();
+	while(1){
+		loop(); //realiza um loop da captura de dados
+	}
+	return (0);
+}
