@@ -15,6 +15,18 @@ simpleserver
 2.5 - Envia a respota do GET (GET RESPONSE)/oc_send_response *oc_api.h*
 
 
-3 - Registro de Recursos
+3 - Registro de Recursos(register_resources)
 
-3.1 - 
+3.1 - regitra um novo recurso/oc_new_resource(const char *uri, uint8_t num_resource_types, int device) *oc_api.h*;
+
+3.2 - relação do recurso e seu tipo/oc_resource_bind_resource_type(oc_resource_t *resource, const char *type) *oc_api.h*;
+
+3.3 - relação do recurso a sua interface e a interface padrão/oc_resource_bind_resource_interface e oc_resource_set_default_interface *oc_api.h*;
+
+3.4 - setar o recurso a ser descoberto, se ele é observável e o período em segundos da observação/oc_resource_set_discoverable, oc_resource_set_observable e oc_resource_set_periodic_observable *oc_api.h*
+
+3.5 - setar o manipulador de request do get através da função estática criada para o GET request/oc_resource_set_request_handler *oc_api.h*
+
+3.6 - Finalmente, adiciona o novo recurso/oc_add_resource *oc_api.h*
+
+4 - 
