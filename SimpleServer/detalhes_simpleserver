@@ -1,18 +1,18 @@
 simpleserver
 
-1 - inicia a plataforma, determinas os devices e o nome do conjunto de recursos
+1 - inicia a plataforma, determinas os devices e o nome do conjunto de recursos. Deu-se o nome da função de app_init;
 
 2 - GET request
 
-2.1 - atualiza o valor do recurso
+2.1 - atualiza o valor do recurso;
 
-2.2 - inicia o objeto raiz (root object)/oc_rep_start_root_object() *oc_rep.h*
+2.2 - inicia o objeto raiz (root object)/oc_rep_start_root_object() *oc_rep.h*;
 
-2.3 - seta os recursos de acordo com a interface utilizada e com os tipos de variáveis a eles declaradas/oc_rep_set_* *oc_rep.h* e oc_process_baseline *oc_api.h*
+2.3 - seta os recursos de acordo com a interface utilizada e com os tipos de variáveis a eles declaradas/oc_rep_set_* *oc_rep.h* e oc_process_baseline *oc_api.h*;
 
-2.4 - finaliza objeto raiz (root object)/oc_rep_end_root_object() *oc_rep.h*
+2.4 - finaliza objeto raiz (root object)/oc_rep_end_root_object() *oc_rep.h*;
 
-2.5 - Envia a respota do GET (GET RESPONSE)/oc_send_response *oc_api.h*
+2.5 - Envia a respota do GET (GET RESPONSE)/oc_send_response *oc_api.h*;
 
 
 3 - Registro de Recursos(register_resources)
@@ -23,10 +23,22 @@ simpleserver
 
 3.3 - relação do recurso a sua interface e a interface padrão/oc_resource_bind_resource_interface e oc_resource_set_default_interface *oc_api.h*;
 
-3.4 - setar o recurso a ser descoberto, se ele é observável e o período em segundos da observação/oc_resource_set_discoverable, oc_resource_set_observable e oc_resource_set_periodic_observable *oc_api.h*
+3.4 - setar o recurso a ser descoberto, se ele é observável e o período em segundos da observação/oc_resource_set_discoverable, oc_resource_set_observable e oc_resource_set_periodic_observable *oc_api.h*;
 
-3.5 - setar o manipulador de request do get através da função estática criada para o GET request/oc_resource_set_request_handler *oc_api.h*
+3.5 - setar o manipulador de request do get através da função estática criada para o GET request/oc_resource_set_request_handler *oc_api.h*;
 
-3.6 - Finalmente, adiciona o novo recurso/oc_add_resource *oc_api.h*
+3.6 - Finalmente, adiciona o novo recurso/oc_add_resource *oc_api.h*;
 
-4 - 
+4 - Função int main()
+
+4.1 - define a struct constante oc_handler_t implementada no cabeçalho oc_api.h com  as funções já definidas anteriormente (app_init, signal_event_loop e register_resources);
+
+4.2 - determina o valor de init com a função oc_main_init com a variável handler determinada com a struct mencionada em 4.1/essa função irá coletar o horário da máquina exato em que o servidor é iniciado/*oc_api.h* e *oc_clock.h*;
+
+4.3 - realiza um laço enquanto quit != 1 (definiu-se quit = 0 no início da função main);
+
+4.3.1 - captura o horário da máquina para o próximo evento através da função oc_main_poll, que por sua vez está alocada a função oc_main_init/*oc_api.h* *oc_clock.h*;
+
+4.3.2 - caso não ocorra nenhum erro nas threads, o programa irá especificar o tempo absoluto de execução em segundos e em nanosegundos do evento atual;
+
+4.3.3 - este tempo absoluto é definido pela função int pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime) que retorna 0 caso nenhum erro de timeout seja deflagrado; *pthread.h*
