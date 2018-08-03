@@ -16,8 +16,13 @@ void error( char *msg ) {
   exit(1);
 }
 
-int func( int a ) {
+int func1( int a ) {
    a = eHealth.getBPM();
+   return a;
+}
+
+int func2( int a ) {
+   a = eHealth.getOxygenSaturation();
    return a;
 }
 
@@ -84,7 +89,7 @@ int main (int argc, char *argv[]){
      	char buffer[256];
      	struct sockaddr_in serv_addr, cli_addr;
 	int n;
-     	int data;
+     	int data1,data2;
 
      	printf( "using port #%d\n", portno );
     
@@ -108,23 +113,35 @@ int main (int argc, char *argv[]){
             	   error( const_cast<char *>("ERROR on accept") );
         	printf( "opened new communication with client\n" );
         	while ( 1 ){
-	     	//---- wait for a number from client ---
-             	   data = getData( newsockfd );
-             	   printf( "got %d\n", data );
-             	   if ( data < 0 ) 
+	     	//---- wait for a number for BPM from client ---
+             	   data1 = getData( newsockfd );
+             	   printf( "got BPM: %d\n", data1 );
+             	   if ( data1 < 0 ) 
                	   	break;
                 
-             	   data = func( data );
-		   digitalWrite(2,HIGH);
+             	   data1 = func1( data1 );
 
              	//--- send new data back --- 
-	     	   printf( "sending back %d\n", data );
-             	   sendData( newsockfd, data );
+	     	   printf( "sending back %d\n", data1 );
+             	   sendData( newsockfd, data1 );
+		
+		//---- wait for a number for Spo2 from client ---
+             	   data2 = getData( newsockfd );
+             	   printf( "got %%SPo2 %d\n", data2 );
+             	   if ( data2 < 0 ) 
+               	   	break;
+                
+             	   data2 = func2( data2 );
+
+             	//--- send new data back --- 
+	     	   printf( "sending back %d\n", data2 );
+             	   sendData( newsockfd, data2 );
 		}
+		digitalWrite(2,HIGH);
         	close( newsockfd );
 
         	//--- if -2 sent by client, we can quit ---
-        	if ( data == -2 )
+        	if ( data1 == -2 || data2 == -2)
           	   break;
 	}
 	return (0);
