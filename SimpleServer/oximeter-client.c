@@ -146,7 +146,7 @@ main(int argc, char *argv[])
   sigaction(SIGINT, &sa, NULL);
 
   int portno = 51717;
-  char serverIp[] = "192.168.25.111";
+  char serverIp[] = "192.168.25.115";
   struct sockaddr_in serv_addr;
   struct hostent *server;
 

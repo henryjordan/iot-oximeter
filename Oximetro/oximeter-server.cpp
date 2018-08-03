@@ -1,5 +1,3 @@
-#include "eHealth.h" //inclui biblioteca do eHealth
-
 // bibliotecas do socketserver
 #include <stdio.h>
 #include <sys/types.h> 
@@ -10,6 +8,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+
+#include "eHealth.h"
 
 void error( char *msg ) {
   perror(  msg );
@@ -115,6 +115,7 @@ int main (int argc, char *argv[]){
                	   	break;
                 
              	   data = func( data );
+		   digitalWrite(2,HIGH);
 
              	//--- send new data back --- 
 	     	   printf( "sending back %d\n", data );
