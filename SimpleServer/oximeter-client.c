@@ -53,7 +53,7 @@ int getData( int sockfd ) {
 
 // código do simpleserver
 static bool state = false;
-int bpm;
+int BPM, spo2;
 int sockfd;
 char buffer[256];
 oc_string_t name;
@@ -73,8 +73,10 @@ get_oximeter(oc_request_t *request, oc_interface_mask_t interface, void *user_da
 {
   (void)user_data;
   // ++power; atualização dos dados
-  sendData( sockfd, bpm );
-  bpm = getData( sockfd );
+  sendData( sockfd, BPM );
+  BPM = getData( sockfd );
+  sendData( sockfd, spo2 );
+  spo2 = getData( sockfd );
 
   PRINT("GET_oximeter:\n");
   oc_rep_start_root_object();
@@ -83,7 +85,8 @@ get_oximeter(oc_request_t *request, oc_interface_mask_t interface, void *user_da
     oc_process_baseline_interface(request->resource);
   case OC_IF_RW:
     oc_rep_set_boolean(root, state, state);
-    oc_rep_set_int(root, bpm, bpm);
+    oc_rep_set_int(root, BPM, BPM);
+    oc_rep_set_int(root, spo2, spo2);
     oc_rep_set_text_string(root, name, oc_string(name));
     break;
   default:
@@ -146,7 +149,7 @@ main(int argc, char *argv[])
   sigaction(SIGINT, &sa, NULL);
 
   int portno = 51717;
-  char serverIp[] = "192.168.25.111";
+  char serverIp[] = "192.168.25.115";
   struct sockaddr_in serv_addr;
   struct hostent *server;
 
