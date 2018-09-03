@@ -141,7 +141,7 @@ handle_signal(int signal)
 int
 main(int argc, char *argv[])
 {
-  int init;
+  int init, i;
   struct sigaction sa;
   sigfillset(&sa.sa_mask);
   sa.sa_flags = 0;
@@ -149,7 +149,7 @@ main(int argc, char *argv[])
   sigaction(SIGINT, &sa, NULL);
 
   int portno = 51717;
-  char serverIp[] = "192.168.25.115";
+  char serverIp[] = "127.0.0.1";
   struct sockaddr_in serv_addr;
   struct hostent *server;
 
@@ -168,10 +168,12 @@ main(int argc, char *argv[])
   serv_addr.sin_family = AF_INET;
   bcopy( (char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
   serv_addr.sin_port = htons(portno);
-  if ( connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0) 
-      printf( "ERROR connecting");
-
-
+  for(i=1; i<11; i++){
+      if ( connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0){ 
+          printf( "ERROR connecting");
+          sleep(1);
+      }
+  }
   static const oc_handler_t handler = {.init = app_init,
                                        .signal_event_loop = signal_event_loop,
                                        .register_resources =
