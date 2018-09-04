@@ -153,28 +153,31 @@ main(int argc, char *argv[])
   struct sockaddr_in serv_addr;
   struct hostent *server;
 
-  if (argc < 3) {
+  for(i=1;i<11;i++){
+    if (argc < 3) {
     // error( const_cast<char *>( "usage myClient2 hostname port\n" ) );
-    printf( "contacting %s on port %d\n", serverIp, portno );
+      printf( "contacting %s on port %d\n", serverIp, portno );
     // exit(0);
-  }
-  if ( ( sockfd = socket(AF_INET, SOCK_STREAM, 0) ) < 0 )
+    }
+    if ( ( sockfd = socket(AF_INET, SOCK_STREAM, 0) ) < 0 ){
       printf( "ERROR opening socket");
-
-  if ( ( server = gethostbyname( serverIp ) ) == NULL ) 
+      continue;
+    }
+    if ( ( server = gethostbyname( serverIp ) ) == NULL ){ 
       printf("ERROR, no such host\n");
-    
-  bzero( (char *) &serv_addr, sizeof(serv_addr));
-  serv_addr.sin_family = AF_INET;
-  bcopy( (char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-  serv_addr.sin_port = htons(portno);
-  for(i=1; i<11; i++){
-      if ( connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0){ 
-          printf( "ERROR connecting");
-          sleep(1);
-      }
-      else
-	  break;
+      continue; 
+    }
+    bzero( (char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy( (char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    serv_addr.sin_port = htons(portno);
+    if ( connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0){ 
+      printf( "ERROR connecting\n");
+      sleep(1);
+      continue;
+    }
+    else
+      break;
   }
   static const oc_handler_t handler = {.init = app_init,
                                        .signal_event_loop = signal_event_loop,
