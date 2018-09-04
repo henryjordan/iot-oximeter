@@ -173,6 +173,8 @@ main(int argc, char *argv[])
           printf( "ERROR connecting");
           sleep(1);
       }
+      else
+	  break;
   }
   static const oc_handler_t handler = {.init = app_init,
                                        .signal_event_loop = signal_event_loop,
