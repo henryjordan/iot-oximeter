@@ -107,7 +107,7 @@ discovery(const char *di, const char *uri, oc_string_array_t types,
     PRINT("DENTRO DO FOR\n");
     char *t = oc_string_array_get_item(types, i);
     PRINT("%d \n", strncmp(t, "core.oximeter", 10));
-    if (strncmp(t, "core.oximeter", 10) == 0) {
+    if (strlen(t) == 13 && strncmp(t, "core.oximeter", 10) == 0) {
       memcpy(&oximeter_server, server, sizeof(oc_server_handle_t));
 
       strncpy(a_oximeter, uri, uri_len);
