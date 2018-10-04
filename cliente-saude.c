@@ -95,16 +95,19 @@ discovery(const char *di, const char *uri, oc_string_array_t types,
           oc_interface_mask_t interfaces, oc_server_handle_t *server,
           void *user_data)
 {
+  PRINT("FAZENDO DISCOVERY\n");
   (void)di;
   (void)user_data;
   (void)interfaces;
   int i;
   int uri_len = strlen(uri);
   uri_len = (uri_len >= MAX_URI_LENGTH) ? MAX_URI_LENGTH - 1 : uri_len;
-
+// retirei um dos argumentos do if implementados no simpleclient para realizar o GET
   for (i = 0; i < (int)oc_string_array_get_allocated_size(types); i++) {
+    PRINT("DENTRO DO FOR\n");
     char *t = oc_string_array_get_item(types, i);
-    if (strlen(t) == 10 && strncmp(t, "core.oximeter", 10) == 0) {
+    PRINT("%d \n", strncmp(t, "core.oximeter", 10));
+    if (strncmp(t, "core.oximeter", 10) == 0) {
       memcpy(&oximeter_server, server, sizeof(oc_server_handle_t));
 
       strncpy(a_oximeter, uri, uri_len);

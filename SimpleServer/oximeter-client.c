@@ -102,7 +102,6 @@ register_resources(void)
   oc_resource_t *res = oc_new_resource("/a/oximeter", 2, 0);
   oc_resource_bind_resource_type(res, "core.oximeter");
   oc_resource_bind_resource_type(res, "core.oxygen");
-  oc_resource_bind_resource_type(res, "core.BPM");
   oc_resource_bind_resource_interface(res, OC_IF_RW);
   oc_resource_set_default_interface(res, OC_IF_RW);
   oc_resource_set_discoverable(res, true);
