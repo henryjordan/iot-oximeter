@@ -16,9 +16,9 @@ root.geometry("480x360")
 root.title("Cliente OCF")
 root.resizable(0,0)
 
-background = PhotoImage(file="heart.png")
-background_label = Label(root, image=background)
-background_label.place(x=0, y=0, relwidth=1, relheight=1)
+#background = PhotoImage(file="heart.png")
+#background_label = Label(root, image=background)
+#background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 photo = PhotoImage(file="OCF.png")
 img = Label(root, image=photo)
@@ -33,20 +33,21 @@ def printBPM(event):
     data2 = client.recv(4096)                       # receive some data
     print(data2.decode('utf-8'))
 
-    bpm = Label(root, text=data1, bg="white", fg="black")
-    bpm.place(relx=0.65, rely=0.5, anchor=CENTER)
-    spo2 = Label(root, text=data2, bg="white", fg="black")
-    spo2.place(relx=0.65, rely=0.7, anchor=CENTER)
+    valor1 = Label(root, text=data1, fg="black", width=4)
+    valor1.place(relx=0.65, rely=0.5, anchor=CENTER)
+    valor2 = Label(root, text=data2, fg="black", width=4)
+    valor2.place(relx=0.65, rely=0.65, anchor=CENTER)
 
-button1 = Button(text="BPM", width=6)
+bpm = Label(root, text="BPM", fg="black")
+bpm.place(relx=0.35, rely=0.5, anchor=CENTER)
+spo2 = Label(root, text="spO2", fg="black")
+spo2.place(relx=0.35, rely=0.65, anchor=CENTER)
+
+button1 = Button(text="Capturar Dados", width=12)
 button1.bind("<Button-1>", printBPM)
-button1.place(relx=0.35, rely=0.5, anchor=CENTER)
+button1.place(relx=0.5, rely=0.825, anchor=CENTER)
 
-button2 = Button(text="spO2", width=6)
-button2.bind("<Button-1>", printBPM)
-button2.place(relx=0.35, rely=0.7, anchor=CENTER)
-
-credits = Label(root, text="Autor: Henrique Jordão Figueiredo Alves", bg="black", fg="white")
+credits = Label(root, text="Autor: Henrique Jordão Figueiredo Alves", fg="black")
 credits.pack(side=BOTTOM)
 
 root.mainloop()
